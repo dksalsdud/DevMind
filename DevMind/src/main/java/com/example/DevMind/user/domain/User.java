@@ -28,4 +28,7 @@ public class User {
 
     @Column(nullable = false, length = 50)
     private String nickname;
+
+    @Column(nullable = false, length = 50)
+    private String name;
 }
