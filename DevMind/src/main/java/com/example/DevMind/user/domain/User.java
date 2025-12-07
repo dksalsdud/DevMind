@@ -1,5 +1,7 @@
 package com.example.DevMind.user.domain;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,4 +36,7 @@ public class User {
 
     @Column(nullable = false, length = 50)
     private String social_provider;
+
+    @Column(nullable = false)
+    private LocalDateTime created_at;
 }
