@@ -115,7 +115,7 @@ public class UserRepositoryTest {
     @Test
     @DisplayName("Email 중복 저장 시 예외 발생 테스트 (Unique 제약조건)")
     void duplicate_email_exception() {
-        
+
         // given
         User user1 = User.builder()
                 .email("duplicate@test.com")
@@ -144,4 +144,22 @@ public class UserRepositoryTest {
         });
     }
 
+    @Test
+    @DisplayName("Nullable=false 필드 누락 시 예외 발생 테스트")
+    void not_null_constraint_exception() {
+        // given
+        User user = User.builder()
+                .email("nulltest@test.com")
+                // nickname 누락 (nullable = false)
+                .name("Name")
+                .social_provider("GOOGLE")
+                .created_at(LocalDateTime.now())
+                .role(UserRole.ROLE_USER)
+                .build();
+
+        // when & then
+        assertThrows(DataIntegrityViolationException.class, () -> {
+            userRepository.save(user);
+        });
+    }
 }
