@@ -2,6 +2,7 @@ package com.example.DevMind.user.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import com.example.DevMind.user.domain.User;
 import com.example.DevMind.user.domain.UserRole;
@@ -89,7 +91,7 @@ public class UserRepositoryTest {
     @Test
     @DisplayName("User 삭제 테스트")
     void delete_user() {
-        
+
         // given
         User user = User.builder()
                 .email("delete@test.com")
@@ -110,4 +112,36 @@ public class UserRepositoryTest {
         assertTrue(deletedUser.isEmpty());
     }
     
+    @Test
+    @DisplayName("Email 중복 저장 시 예외 발생 테스트 (Unique 제약조건)")
+    void duplicate_email_exception() {
+        
+        // given
+        User user1 = User.builder()
+                .email("duplicate@test.com")
+                .nickname("User1")
+                .name("Name1")
+                .social_provider("GOOGLE")
+                .created_at(LocalDateTime.now())
+                .role(UserRole.ROLE_USER)
+                .build();
+
+        User user2 = User.builder()
+                .email("duplicate@test.com") // 동일한 이메일
+                .nickname("User2")
+                .name("Name2")
+                .social_provider("KAKAO")
+                .created_at(LocalDateTime.now())
+                .role(UserRole.ROLE_USER)
+                .build();
+
+        userRepository.save(user1);
+
+        // when & then
+        // assertThrows(예상되는 예외 클래스, 실행할 코드)
+        assertThrows(DataIntegrityViolationException.class, () -> {
+            userRepository.save(user2);
+        });
+    }
+
 }
