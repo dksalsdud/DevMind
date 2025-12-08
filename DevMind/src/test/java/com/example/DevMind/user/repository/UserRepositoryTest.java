@@ -2,9 +2,11 @@ package com.example.DevMind.user.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -83,4 +85,29 @@ public class UserRepositoryTest {
         // then
         assertEquals(2, userList.size());
     }
+
+    @Test
+    @DisplayName("User 삭제 테스트")
+    void delete_user() {
+        
+        // given
+        User user = User.builder()
+                .email("delete@test.com")
+                .nickname("DeleteNick")
+                .name("DeleteName")
+                .social_provider("GOOGLE")
+                .created_at(LocalDateTime.now())
+                .role(UserRole.ROLE_GUEST)
+                .build();
+
+        User savedUser = userRepository.save(user);
+
+        // when
+        userRepository.delete(savedUser);
+
+        // then
+        Optional<User> deletedUser = userRepository.findById(savedUser.getId());
+        assertTrue(deletedUser.isEmpty());
+    }
+    
 }
