@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,5 +49,38 @@ public class UserRepositoryTest {
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         
         assertEquals("SaveNick", foundUser.getNickname());
+    }
+
+    @Test
+    @DisplayName("User 목록 조회 테스트")
+    void find_all_users() {
+
+        // given
+        User user1 = User.builder()
+                .email("user1@test.com")
+                .nickname("Nick1")
+                .name("Name1")
+                .social_provider("KAKAO")
+                .created_at(LocalDateTime.now())
+                .role(UserRole.ROLE_USER)
+                .build();
+
+        User user2 = User.builder()
+                .email("user2@test.com")
+                .nickname("Nick2")
+                .name("Name2")
+                .social_provider("GOOGLE")
+                .created_at(LocalDateTime.now())
+                .role(UserRole.ROLE_ADMIN)
+                .build();
+
+        userRepository.save(user1);
+        userRepository.save(user2);
+
+        // when
+        List<User> userList = userRepository.findAll();
+
+        // then
+        assertEquals(2, userList.size());
     }
 }
