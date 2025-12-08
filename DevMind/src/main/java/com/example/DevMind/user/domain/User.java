@@ -39,4 +39,7 @@ public class User {
 
     @Column(nullable = false)
     private LocalDateTime created_at;
+
+    @Column(nullable = false)
+    private UserRole role;
 }
