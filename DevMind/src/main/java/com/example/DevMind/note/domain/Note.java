@@ -1,5 +1,7 @@
 package com.example.DevMind.note.domain;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -52,4 +54,8 @@ public class Note {
     @Column(nullable = false)
     @Builder.Default
     private long view_count = 0;
+
+    @Column(nullable = false)
+    private LocalDateTime created_at;
+
 }
