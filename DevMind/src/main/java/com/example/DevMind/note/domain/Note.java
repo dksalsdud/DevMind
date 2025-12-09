@@ -30,4 +30,7 @@ public class Note {
     @Lob
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String content;
+
+    @Column(nullable =  false)
+    private String summary;
 }
