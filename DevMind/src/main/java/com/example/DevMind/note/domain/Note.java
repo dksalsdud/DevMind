@@ -58,4 +58,9 @@ public class Note {
     @Column(nullable = false)
     private LocalDateTime created_at;
 
+    @Column()
+    private LocalDateTime updated_at;
+
+    @Column()
+    private LocalDateTime crawled_at;
 }
