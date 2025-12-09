@@ -33,4 +33,7 @@ public class Note {
 
     @Column(nullable =  false)
     private String summary;
+
+    @Column(columnDefinition = "TEXT")
+    private String original_url;
 }
