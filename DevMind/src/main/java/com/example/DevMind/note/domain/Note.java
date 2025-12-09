@@ -36,4 +36,7 @@ public class Note {
 
     @Column(columnDefinition = "TEXT")
     private String original_url;
+
+    @Column(columnDefinition = "TEXT")
+    private String thumbnail_url;
 }
