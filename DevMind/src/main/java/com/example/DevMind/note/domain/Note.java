@@ -39,4 +39,7 @@ public class Note {
 
     @Column(columnDefinition = "TEXT")
     private String thumbnail_url;
+
+    @Column()
+    private String platform;
 }
