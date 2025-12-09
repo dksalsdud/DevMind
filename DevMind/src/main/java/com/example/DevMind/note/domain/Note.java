@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,4 +26,8 @@ public class Note {
     
     @Column(nullable = false, length = 100)
     private String title;
+
+    @Lob
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
+    private String content;
 }
