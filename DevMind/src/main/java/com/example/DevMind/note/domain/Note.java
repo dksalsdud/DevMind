@@ -48,4 +48,8 @@ public class Note {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private SourceType source_type;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private long view_count = 0;
 }
