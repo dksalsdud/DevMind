@@ -54,7 +54,7 @@ public class NoteRepositoryTest {
     @Test
     @DisplayName("Note 수정 테스트 (Dirty Checking)")
     void updateNote() {
-        
+
         // given
         Note note = Note.builder()
                 .title("Original Title")
@@ -81,5 +81,26 @@ public class NoteRepositoryTest {
         assertThat(updatedNote.getTitle()).isEqualTo(updatedTitle);
         assertThat(updatedNote.getContent()).isEqualTo(updatedContent);
         assertThat(updatedNote.getUpdated_at()).isNotNull();
+    }
+
+    @Test
+    @DisplayName("Note 삭제 테스트")
+    void deleteNote() {
+        // given
+        Note note = Note.builder()
+                .title("To be deleted")
+                .content("Content")
+                .summary("Summary")
+                .source_type(SourceType.INTERNAL)
+                .created_at(LocalDateTime.now())
+                .build();
+        Note savedNote = noteRepository.save(note);
+
+        // when
+        noteRepository.delete(savedNote);
+
+        // then
+        Optional<Note> foundNote = noteRepository.findById(savedNote.getId());
+        assertThat(foundNote).isEmpty();
     }
 }
