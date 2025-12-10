@@ -26,6 +26,7 @@ public class NoteRepositoryTest {
     @Test
     @DisplayName("Note 저장 및 조회 테스트")
     void saveAndFindNote() {
+
         // given
         Note note = Note.builder()
                 .title("Spring Boot Testing")
@@ -87,6 +88,7 @@ public class NoteRepositoryTest {
     @Test
     @DisplayName("Note 삭제 테스트")
     void deleteNote() {
+
         // given
         Note note = Note.builder()
                 .title("To be deleted")
@@ -108,6 +110,7 @@ public class NoteRepositoryTest {
     @Test
     @DisplayName("SourceType으로 필터링 테스트 (커스텀 쿼리가 필요할 경우를 대비한 검증)")
     void enumPersistenceTest() {
+        
         // given
         Note internalNote = Note.builder()
                 .title("Internal Note")
