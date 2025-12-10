@@ -33,4 +33,20 @@ public class NoteTest {
         assertThat(note.getSource_type()).isEqualTo(sourceType);
         assertThat(note.getCreated_at()).isEqualTo(now);
     }
+
+    @Test
+    @DisplayName("Note 생성 시 view_count 기본값 0 확인")
+    void checkDefaultViewCount() {
+        // given
+        Note note = Note.builder()
+                .title("Title")
+                .content("Content")
+                .summary("Summary")
+                .source_type(SourceType.EXTERNAL)
+                .created_at(LocalDateTime.now())
+                .build();
+
+        // then
+        assertThat(note.getView_count()).isEqualTo(0L);
+    }
 }
