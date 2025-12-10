@@ -12,6 +12,7 @@ public class NoteTest {
     @Test
     @DisplayName("Note 객체 빌더 패턴 생성 테스트")
     void createNoteUsingBuilder() {
+
         // given
         String title = "Test Title";
         String content = "Test Content";
@@ -37,6 +38,7 @@ public class NoteTest {
     @Test
     @DisplayName("Note 생성 시 view_count 기본값 0 확인")
     void checkDefaultViewCount() {
+        
         // given
         Note note = Note.builder()
                 .title("Title")
