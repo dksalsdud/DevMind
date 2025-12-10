@@ -50,4 +50,36 @@ public class NoteRepositoryTest {
         assertThat(foundNote).isPresent();
         assertThat(foundNote.get().getTitle()).isEqualTo("Spring Boot Testing");
     }
+
+    @Test
+    @DisplayName("Note 수정 테스트 (Dirty Checking)")
+    void updateNote() {
+        
+        // given
+        Note note = Note.builder()
+                .title("Original Title")
+                .content("Original Content")
+                .summary("Summary")
+                .source_type(SourceType.EXTERNAL)
+                .created_at(LocalDateTime.now())
+                .build();
+        Note savedNote = noteRepository.save(note);
+
+        // when
+        String updatedTitle = "Updated Title";
+        String updatedContent = "Updated Content";
+        
+        savedNote.setTitle(updatedTitle);
+        savedNote.setContent(updatedContent);
+        savedNote.setUpdated_at(LocalDateTime.now());
+        
+        // save를 호출하지 않아도 트랜잭션 내에서 변경감지(Dirty Checking)가 동작하지만,
+        // 명시적으로 saveAndFlush를 호출하여 DB 반영을 즉시 확인
+        Note updatedNote = noteRepository.saveAndFlush(savedNote);
+
+        // then
+        assertThat(updatedNote.getTitle()).isEqualTo(updatedTitle);
+        assertThat(updatedNote.getContent()).isEqualTo(updatedContent);
+        assertThat(updatedNote.getUpdated_at()).isNotNull();
+    }
 }
