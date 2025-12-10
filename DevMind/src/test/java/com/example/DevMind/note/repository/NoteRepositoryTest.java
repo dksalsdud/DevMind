@@ -1,6 +1,7 @@
 package com.example.DevMind.note.repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
@@ -102,5 +103,36 @@ public class NoteRepositoryTest {
         // then
         Optional<Note> foundNote = noteRepository.findById(savedNote.getId());
         assertThat(foundNote).isEmpty();
+    }
+
+    @Test
+    @DisplayName("SourceType으로 필터링 테스트 (커스텀 쿼리가 필요할 경우를 대비한 검증)")
+    void enumPersistenceTest() {
+        // given
+        Note internalNote = Note.builder()
+                .title("Internal Note")
+                .content("Content")
+                .summary("Summary")
+                .source_type(SourceType.INTERNAL)
+                .created_at(LocalDateTime.now())
+                .build();
+
+        Note externalNote = Note.builder()
+                .title("External Note")
+                .content("Content")
+                .summary("Summary")
+                .source_type(SourceType.EXTERNAL)
+                .created_at(LocalDateTime.now())
+                .build();
+
+        noteRepository.saveAll(List.of(internalNote, externalNote));
+
+        // when
+        List<Note> allNotes = noteRepository.findAll();
+
+        // then
+        assertThat(allNotes).hasSize(2);
+        assertThat(allNotes).extracting("source_type")
+                .contains(SourceType.INTERNAL, SourceType.EXTERNAL);
     }
 }
